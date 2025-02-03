@@ -1,8 +1,12 @@
 package aarambh.apps.blinkitcloneadmin
 
 
+import aarambh.apps.blinkitcloneadmin.activity.AdminMainActivity
 import aarambh.apps.blinkitcloneadmin.adapter.AdapterSelectedImage
 import aarambh.apps.blinkitcloneadmin.databinding.FragmentAddProductBinding
+import aarambh.apps.blinkitcloneadmin.models.Product
+import aarambh.apps.blinkitcloneadmin.viewmodels.AdminViewModel
+import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
@@ -13,10 +17,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 
 class addProductFragment : Fragment() {
-
+    private val viewModel: AdminViewModel by viewModels()
     lateinit var binding: FragmentAddProductBinding
     private val imageUris: ArrayList<Uri> = arrayListOf()
     val selectedImage =
@@ -27,6 +36,7 @@ class addProductFragment : Fragment() {
 
             binding.rvProductImages.adapter = AdapterSelectedImage(imageUris)
         }
+
 
 
     override fun onCreateView(
@@ -40,8 +50,88 @@ class addProductFragment : Fragment() {
 
         onImageSelectClick()
 
+        onAddButtonClicked()
+
         // Inflate the layout for this fragment
-       return binding.root
+        return binding.root
+    }
+
+
+    private fun onAddButtonClicked() {
+        binding.btnAddProduct.setOnClickListener() {
+            Utils.showDialog(requireContext(), "Uploading Images")
+            val productTitle = binding.etProductTitle.text.toString()
+            val productQuantity = binding.etProductQuantity.text.toString()
+            val productUnit = binding.etProductUnit.text.toString()
+            val productPrice = binding.etProductPrice.text.toString()
+            val productStock = binding.etProductStock.text.toString()
+            val productCategory = binding.etProductCategory.text.toString()
+            val productType = binding.etProductType.text.toString()
+
+            if (productTitle.isEmpty() || productQuantity.isEmpty() || productUnit.isEmpty() || productPrice.isEmpty() || productStock.isEmpty() || productCategory.isEmpty() || productType.isEmpty()) {
+                Utils.hideDialog()
+                Utils.showToast(requireContext(), "Please fill all the fields")
+            } else if (imageUris.isEmpty()) {
+                Utils.hideDialog()
+                Utils.showToast(requireContext(), "Please upload some images")
+            } else {
+                val product = Product(
+                    productTitle = productTitle,
+                    productQuantity = productQuantity.toInt(),
+                    productUnit = productUnit,
+                    productPrice = productPrice.toInt(),
+                    productStock = productStock.toInt(),
+                    productCategory = productCategory,
+                    productType = productType,
+                    itemCount = 0,
+                    adminUid = Utils.getCurrentUserId(),
+                    productRandomId = Utils.getRandomId()
+                )
+
+                saveImage(product)
+
+            }
+
+
+        }
+    }
+
+    private fun saveProduct(product: Product){
+        Utils.showDialog(requireContext(),"Saving Product")
+        viewModel.saveProduct(product)
+        lifecycleScope.launch {
+            viewModel.isProductSaved.collect {
+                if (it) {
+                    Utils.hideDialog()
+                    startActivity(Intent(requireContext(), AdminMainActivity::class.java))
+                    Utils.showToast(requireContext(), "Your Product is Live")
+
+                }
+            }
+        }
+
+    }
+
+    private fun getUrls(product:Product) {
+        lifecycleScope.launch {
+            viewModel.downloadedUrls.collect {urls->
+                product.productImageUris = urls
+                saveProduct(product)
+            }
+        }
+    }
+
+    private fun saveImage(product: Product) {
+        viewModel.saveImageInDB(imageUris)
+        lifecycleScope.launch{
+            viewModel.imagesUploaded.collect{
+                if(it){
+                    Utils.hideDialog()
+                    Utils.showToast(requireContext(), "Image Saved Successfully")
+                }
+                getUrls(product)
+            }
+        }
     }
 
     private fun onImageSelectClick() {
