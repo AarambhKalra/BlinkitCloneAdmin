@@ -1,6 +1,9 @@
-package aarambh.apps.blinkitcloneadmin
+package aarambh.apps.blinkitcloneadmin.fragments
 
 
+import aarambh.apps.blinkitcloneadmin.Constants
+import aarambh.apps.blinkitcloneadmin.R
+import aarambh.apps.blinkitcloneadmin.Utils
 import aarambh.apps.blinkitcloneadmin.activity.AdminMainActivity
 import aarambh.apps.blinkitcloneadmin.adapter.AdapterSelectedImage
 import aarambh.apps.blinkitcloneadmin.databinding.FragmentAddProductBinding
@@ -19,9 +22,7 @@ import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.milliseconds
 
 
 class addProductFragment : Fragment() {
@@ -97,7 +98,7 @@ class addProductFragment : Fragment() {
     }
 
     private fun saveProduct(product: Product){
-        Utils.showDialog(requireContext(),"Saving Product")
+        Utils.showDialog(requireContext(), "Saving Product")
         viewModel.saveProduct(product)
         lifecycleScope.launch {
             viewModel.isProductSaved.collect {

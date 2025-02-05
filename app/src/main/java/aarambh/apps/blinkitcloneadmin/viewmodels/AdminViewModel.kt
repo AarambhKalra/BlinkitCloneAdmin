@@ -90,9 +90,18 @@ class AdminViewModel : ViewModel() {
             }
         }
 
-            db.addValueEventListener(eventListener)
+        db.addValueEventListener(eventListener)
 
-            awaitClose{db.removeEventListener(eventListener)}
+        awaitClose{db.removeEventListener(eventListener)}
+
+    }
+    fun savingUpdatedProducts(product: Product){
+        FirebaseDatabase.getInstance().getReference("Admins")
+            .child("AllProducts/${product.productRandomId}").setValue(product)
+        FirebaseDatabase.getInstance().getReference("Admins")
+            .child("ProductCategory/${product.productRandomId}").setValue(product)
+        FirebaseDatabase.getInstance().getReference("Admins")
+            .child("ProductType/${product.productRandomId}").setValue(product)
 
     }
 }

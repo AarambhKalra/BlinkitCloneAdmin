@@ -1,7 +1,6 @@
 package aarambh.apps.blinkitcloneadmin.adapter
 
 import aarambh.apps.blinkitcloneadmin.databinding.ItemViewProductBinding
-import aarambh.apps.blinkitcloneadmin.databinding.ItemViewProductCategoriesBinding
 import aarambh.apps.blinkitcloneadmin.models.Product
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.denzcoskun.imageslider.models.SlideModel
 
-class AdapterProduct: RecyclerView.Adapter<AdapterProduct.ProductViewHolder>(){
+class AdapterProduct(val onEditButtonClicked: (Product) -> Unit) : RecyclerView.Adapter<AdapterProduct.ProductViewHolder>(){
     class ProductViewHolder (val binding: ItemViewProductBinding): RecyclerView.ViewHolder(binding.root){
 
     }
@@ -60,6 +59,11 @@ class AdapterProduct: RecyclerView.Adapter<AdapterProduct.ProductViewHolder>(){
             tvProductQuantity.text = quantity
 
             tvProductPrice.text = "₹" + product.productPrice.toString()
+
+        }
+
+        holder.itemView.setOnClickListener{
+            onEditButtonClicked(product)
 
         }
 

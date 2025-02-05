@@ -8,12 +8,7 @@
     android:orientation="vertical"
     tools:context=".fragments.homeFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/yellow"
-        app:title="Add Product"
-        app:titleTextColor="#ffffff" />
+
 
     <TextView
         android:id="@+id/tvTxt"
@@ -21,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="13.00dp"
-        android:text="Please fill product details"
+        android:text="Edit Product"
         android:textColor="@color/yellow"
         android:textSize="18.20sp"
         android:textStyle="bold" />
@@ -40,6 +35,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:layout_marginHorizontal="26.00dp"
                 android:layout_marginTop="1.30dp"
                 app:boxCornerRadiusBottomEnd="16.90dp"
@@ -70,6 +66,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:layout_marginEnd="2.60dp"
                     android:layout_weight="0.5"
                     app:boxCornerRadiusBottomEnd="16.90dp"
@@ -93,6 +90,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:layout_marginStart="2.60dp"
                     android:layout_marginEnd="2.60dp"
                     android:layout_weight="0.5"
@@ -126,6 +124,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:layout_marginEnd="2.60dp"
                     android:layout_weight="0.5"
                     app:boxCornerRadiusBottomEnd="16.90dp"
@@ -149,6 +148,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:layout_marginStart="2.60dp"
                     android:layout_weight="0.5"
                     app:boxCornerRadiusBottomEnd="16.90dp"
@@ -174,6 +174,7 @@
                 android:id="@+id/categoryTil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:layout_marginHorizontal="26.00dp"
                 app:boxCornerRadiusBottomEnd="16.90dp"
                 app:boxCornerRadiusBottomStart="16.90dp"
@@ -197,6 +198,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:layout_marginHorizontal="26.00dp"
                 app:boxCornerRadiusBottomEnd="16.90dp"
                 app:boxCornerRadiusBottomStart="16.90dp"
@@ -216,58 +218,44 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tvPic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3.90dp"
-                    android:layout_marginTop="13.00dp"
-                    android:text="Please upload product image"
-                    android:textColor="@color/yellow"
-                    android:textSize="18.20sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/btnSelectImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/baseline_add_photo_alternate_24"/>
-
-            </LinearLayout>
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvProductImages"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginHorizontal="16.90dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="horizontal"
-                tools:listitem="@layout/item_view_image_selection"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnAddProduct"
-                android:layout_width="match_parent"
-                android:layout_height="58.50dp"
-                android:layout_gravity="center"
-                android:layout_margin="13.00dp"
-                android:layout_marginHorizontal="26.00dp"
-                android:layout_marginTop="6.50dp"
-                android:text="Add Product"
-                android:textColor="#FFFFFF"
-                android:textAllCaps="false"
-                app:cornerRadius="10.40dp"
-                app:backgroundTint="@color/yellow"/>
+                android:weightSum="1">
 
 
-        </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="58.50dp"
+                    android:layout_weight="0.5"
+                    android:layout_gravity="center"
+                    android:layout_margin="13.00dp"
+                    android:layout_marginHorizontal="26.00dp"
+                    android:layout_marginTop="6.50dp"
+                    android:text="Edit"
+                    android:textColor="#FFFFFF"
+                    android:textAllCaps="false"
+                    app:cornerRadius="10.40dp"
+                    app:backgroundTint="@color/yellow"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnsaveProduct"
+                    android:layout_width="match_parent"
+                    android:layout_weight="0.5"
+                    android:layout_height="58.50dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="13.00dp"
+                    android:layout_marginHorizontal="26.00dp"
+                    android:layout_marginTop="6.50dp"
+                    android:text="Save"
+                    android:textColor="#FFFFFF"
+                    android:textAllCaps="false"
+                    app:cornerRadius="10.40dp"
+                    app:backgroundTint="@color/yellow"/>
+
+            </LinearLayout></LinearLayout>
 
 
     </ScrollView>

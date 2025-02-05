@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/homeFragment2"
-        android:name="aarambh.apps.blinkitcloneadmin.homeFragment"
+        android:name="aarambh.apps.blinkitcloneadmin.fragments.homeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/addProductFragment2"
-        android:name="aarambh.apps.blinkitcloneadmin.addProductFragment"
+        android:name="aarambh.apps.blinkitcloneadmin.fragments.addProductFragment"
         android:label="fragment_add_product"
         tools:layout="@layout/fragment_add_product" />
     <fragment
