@@ -55,10 +55,11 @@ class AdminViewModel : ViewModel() {
             .child("AllProducts/${product.productRandomId}").setValue(product)
             .addOnSuccessListener {
                 FirebaseDatabase.getInstance().getReference("Admins")
-                    .child("ProductCategory/${product.productRandomId}").setValue(product)
+                    .child("ProductCategory/${product.productCategory}/${product.productRandomId}").setValue(product)
                     .addOnSuccessListener {
                         FirebaseDatabase.getInstance().getReference("Admins")
-                            .child("ProductType/${product.productRandomId}").setValue(product)
+                            .child("ProductType/${product.productType}/${product.productRandomId}").setValue(product)
+
                             .addOnSuccessListener {
                                 _isProductSaved.value = true
                             }
@@ -99,9 +100,8 @@ class AdminViewModel : ViewModel() {
         FirebaseDatabase.getInstance().getReference("Admins")
             .child("AllProducts/${product.productRandomId}").setValue(product)
         FirebaseDatabase.getInstance().getReference("Admins")
-            .child("ProductCategory/${product.productRandomId}").setValue(product)
+            .child("ProductCategory/${product.productCategory}/${product.productRandomId}").setValue(product)
         FirebaseDatabase.getInstance().getReference("Admins")
-            .child("ProductType/${product.productRandomId}").setValue(product)
-
+            .child("ProductType/${product.productType}/${product.productRandomId}").setValue(product)
     }
 }

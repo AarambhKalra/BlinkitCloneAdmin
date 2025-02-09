@@ -1,17 +1,19 @@
 package aarambh.apps.blinkitcloneadmin.adapter
 
+import aarambh.apps.blinkitcloneadmin.FilteringProducts
 import aarambh.apps.blinkitcloneadmin.databinding.ItemViewProductBinding
 import aarambh.apps.blinkitcloneadmin.models.Product
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.denzcoskun.imageslider.models.SlideModel
 
-class AdapterProduct(val onEditButtonClicked: (Product) -> Unit) : RecyclerView.Adapter<AdapterProduct.ProductViewHolder>(){
+class AdapterProduct(val onEditButtonClicked: (Product) -> Unit) : RecyclerView.Adapter<AdapterProduct.ProductViewHolder>(),Filterable{
     class ProductViewHolder (val binding: ItemViewProductBinding): RecyclerView.ViewHolder(binding.root){
-
     }
 
     val diffUtil = object : DiffUtil.ItemCallback<Product>(){
@@ -66,6 +68,24 @@ class AdapterProduct(val onEditButtonClicked: (Product) -> Unit) : RecyclerView.
             onEditButtonClicked(product)
 
         }
+
+        // If this is the last item, reset the filter
+        if (position == differ.currentList.size - 1) {
+            filter = null
+        }
+
+    }
+
+    var originalList = ArrayList<Product>()
+
+
+    private var filter: FilteringProducts? = null
+
+    override fun getFilter(): FilteringProducts {
+        if(filter == null){
+            return FilteringProducts(this,originalList)
+        }
+        return filter as FilteringProducts
 
     }
 

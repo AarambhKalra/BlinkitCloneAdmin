@@ -13,6 +13,8 @@ import aarambh.apps.blinkitcloneadmin.viewmodels.AdminViewModel
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +27,7 @@ import kotlinx.coroutines.launch
 
 class homeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var adapterProduct: AdapterProduct
     val viewModel: AdminViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,9 +38,28 @@ class homeFragment : Fragment() {
 
         setCategories()
 
+        searchProducts()
+
         getAllTheProducts("All")
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private fun searchProducts() {
+        binding.searchEt.addTextChangedListener(object :TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val query = s.toString().trim()
+                adapterProduct.filter.filter(query)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
     }
 
     private fun onCategoryClicked(categories: Categories) {
@@ -56,9 +78,10 @@ class homeFragment : Fragment() {
                     binding.rvProducts.visibility = View.VISIBLE
                     binding.tvText.visibility = View.GONE
                 }
-                val adapterProduct = AdapterProduct(::onEditButtonClicked)
+                adapterProduct = AdapterProduct(::onEditButtonClicked)
                 binding.rvProducts.adapter = adapterProduct
                 adapterProduct.differ.submitList(it)
+                adapterProduct.originalList  = it as ArrayList<Product>
                 binding.shimmerViewContainer.visibility = View.GONE
             }
         }
